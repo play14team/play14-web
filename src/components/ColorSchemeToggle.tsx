@@ -14,7 +14,7 @@ export function ColorSchemeToggle() {
       onClick={() => toggleColorScheme()}
       title="Toggle color scheme"
     >
-      {dark ? <SunIcon /> : <MoonIcon />}
+      {dark ? <SunIcon style={{ width: 18, height: 18 }} /> : <MoonIcon style={{ width: 18, height: 18 }} />}
 
     </ActionIcon>
   );
