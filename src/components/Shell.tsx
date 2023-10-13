@@ -4,6 +4,7 @@ import { useDisclosure } from '@mantine/hooks';
 import { AppShell, Burger, Group, Skeleton } from '@mantine/core';
 import Play14Logo from '/public/logo/play14_black_bg_transparent_500x150.png';
 import Image from 'next/image';
+import { ColorSchemeToggle } from './ColorSchemeToggle';
 
 export default function Shell({ children, }: { children: React.ReactNode }) {
 
@@ -22,11 +23,14 @@ export default function Shell({ children, }: { children: React.ReactNode }) {
         padding="md"
       >
         <AppShell.Header>
-          <Group h="100%" px="md">
-            <Burger opened={mobileOpened} onClick={toggleMobile} hiddenFrom="sm" size="sm" />
-            <Burger opened={desktopOpened} onClick={toggleDesktop} visibleFrom="sm" size="sm" />
-            <Image src={Play14Logo} width={166} height={50} alt="play14 logo" />
-          </Group>
+            <Group h="100%" px="md">
+              <Group>
+                <Burger opened={mobileOpened} onClick={toggleMobile} hiddenFrom="sm" size="sm" />
+                <Burger opened={desktopOpened} onClick={toggleDesktop} visibleFrom="sm" size="sm" />
+                <Image src={Play14Logo} width={166} height={50} alt="play14 logo" />
+              </Group>
+              <ColorSchemeToggle />
+            </Group>
         </AppShell.Header>
         <AppShell.Navbar p="md">
           Navbar
