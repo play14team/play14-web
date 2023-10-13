@@ -1,9 +1,13 @@
+import { Button, Code, Text, Title } from "@mantine/core";
 
 export default function Home() {
   return (
     <>
-      <h1>Welcome to #play14</h1>
-      
+      <Title>Welcome to #play14</Title>
+      <Button>Click me</Button>
+      <br></br>
+      <Code>const scheme = useScheme()</Code>
+      <Text>Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet nam fuga suscipit incidunt tenetur vero distinctio a repudiandae consectetur illo tempora, consequuntur impedit debitis. Facere quis velit amet placeat quae.</Text>
     </>
   )
 }
