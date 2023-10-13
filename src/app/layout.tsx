@@ -1,9 +1,14 @@
 import './globals.css'
 import '@mantine/core/styles.css'
+import '@mantine/notifications/styles.css';
+
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 
 import { MantineProvider, ColorSchemeScript } from '@mantine/core'
+import { ModalsProvider } from '@mantine/modals'
+import { Notifications } from '@mantine/notifications';
+
 import Shell from '@/components/Shell'
 import { theme } from '../theme'
 
@@ -30,9 +35,12 @@ export default function RootLayout({
       </head>
       <body className={inter.className}>
         <MantineProvider theme={theme} defaultColorScheme="dark">
-          <Shell>
-            {children}
-          </Shell>
+          <Notifications />
+          <ModalsProvider>
+            <Shell>
+              {children}
+            </Shell>
+          </ModalsProvider>
         </MantineProvider>
       </body>
     </html>
