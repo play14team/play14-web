@@ -6,14 +6,11 @@ import EventCard from "./EventCard";
 export default function Cards() {
   return (
     <Grid justify='space-around'>
-      <Grid.Col span={{ base: 12, md: 6, lg: 3 }}><EventCard /></Grid.Col>
-      <Grid.Col span={{ base: 12, md: 6, lg: 3 }}><EventCard /></Grid.Col>
-      <Grid.Col span={{ base: 12, md: 6, lg: 3 }}><EventCard /></Grid.Col>
-      <Grid.Col span={{ base: 12, md: 6, lg: 3 }}><EventCard /></Grid.Col>
-      <Grid.Col span={{ base: 12, md: 6, lg: 3 }}><EventCard /></Grid.Col>
-      <Grid.Col span={{ base: 12, md: 6, lg: 3 }}><EventCard /></Grid.Col>
-      <Grid.Col span={{ base: 12, md: 6, lg: 3 }}><EventCard /></Grid.Col>
-      <Grid.Col span={{ base: 12, md: 6, lg: 3 }}><EventCard /></Grid.Col>
+      {Array(12)
+        .fill(0)
+        .map((_, index) => (
+          <Grid.Col key={index} span={{ base: 12, md: 6, lg: 3 }}><EventCard /></Grid.Col>
+      ))}
     </Grid>
   )
 }

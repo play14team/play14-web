@@ -1,16 +1,14 @@
 'use client'
 
+import { AppShell } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { AppShell, Avatar, Burger, Group, Skeleton, Tooltip } from '@mantine/core';
-import Play14Logo from '/public/logo/play14_black_bg_transparent_500x150.png';
-import Image from 'next/image';
-import { ColorSchemeToggle } from './ColorSchemeToggle';
+import Header from './Header';
+import Navbar from './Navbar';
 
 export default function Shell({ children, }: { children: React.ReactNode }) {
-
   const [mobileOpened, { toggle: toggleMobile }] = useDisclosure();
   const [desktopOpened, { toggle: toggleDesktop }] = useDisclosure(true);
-  
+
   return (
     <>
       <AppShell
@@ -23,27 +21,10 @@ export default function Shell({ children, }: { children: React.ReactNode }) {
         padding="md"
       >
         <AppShell.Header>
-            <Group h="100%" px="md" grow>
-              <Group>
-                <Burger opened={mobileOpened} onClick={toggleMobile} hiddenFrom="sm" size="sm" />
-                <Burger opened={desktopOpened} onClick={toggleDesktop} visibleFrom="sm" size="sm" />
-                <Image src={Play14Logo} width={166} height={50} alt="play14 logo" />
-              </Group>
-              <Group justify='center'>
-                <ColorSchemeToggle />
-                <Tooltip label="Cédric Pontet" withArrow>
-                  <Avatar src='/avatar/2023-cedric-pontet.jpg' />
-                </Tooltip>
-              </Group>
-            </Group>
+          <Header />
         </AppShell.Header>
         <AppShell.Navbar p="md">
-          Navbar
-          {Array(15)
-            .fill(0)
-            .map((_, index) => (
-              <Skeleton key={index} h={28} mt="sm" animate={false} />
-            ))}
+          <Navbar />
         </AppShell.Navbar>
         <AppShell.Main>
           Main
