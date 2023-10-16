@@ -6,8 +6,9 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 
 import { ColorSchemeScript } from '@mantine/core'
-import { Providers } from './providers';
+import { Providers } from '../components/Providers';
 import Shell from '@/components/Shell'
+import { PropsWithChildren } from 'react';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -16,11 +17,7 @@ export const metadata: Metadata = {
   description: 'Play is the way',
 }
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function RootLayout({ children }: PropsWithChildren<{}>) {
   return (
     <html lang="en">
       <head>

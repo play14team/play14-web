@@ -4,10 +4,11 @@ import { AppShell, Burger, Group } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import Navbar from './Navbar';
 import { ColorSchemeToggle } from './ColorSchemeToggle';
-import Login from './Auth/Login';
+import SignIn from './Auth/SignIn';
 import Logo from './Logo';
+import { PropsWithChildren } from 'react';
 
-export default function Shell({ children, }: { children: React.ReactNode }) {
+export default function Shell({ children }: PropsWithChildren<{}>) {
   const [mobileOpened, { toggle: toggleMobile }] = useDisclosure();
   const [desktopOpened, { toggle: toggleDesktop }] = useDisclosure(true);
 
@@ -29,7 +30,7 @@ export default function Shell({ children, }: { children: React.ReactNode }) {
             <Logo />
           </Group>
           <Group justify='flex-end'>
-            <Login />
+            <SignIn />
             <ColorSchemeToggle />
           </Group>
         </Group>
