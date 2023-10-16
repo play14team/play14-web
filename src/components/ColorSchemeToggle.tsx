@@ -12,7 +12,7 @@ export function ColorSchemeToggle() {
       variant="outline"
       color={dark ? 'white' : 'black'}
       onClick={() => toggleColorScheme()}
-      title="Toggle color scheme"
+      title={dark ? "Toggle Light theme" : "Toggle Dark theme"}
     >
       {dark ? <SunIcon style={{ width: 18, height: 18 }} /> : <MoonIcon style={{ width: 18, height: 18 }} />}
 
