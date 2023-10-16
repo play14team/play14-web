@@ -4,10 +4,8 @@ import { AppShell, Burger, Group } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import Navbar from './Navbar';
 import { ColorSchemeToggle } from './ColorSchemeToggle';
-import Image from 'next/image';
-import Play14Logo from '/public/logo/play14_black_bg_transparent_500x150.png';
 import Login from './Auth/Login';
-import Link from 'next/link';
+import Logo from './Logo';
 
 export default function Shell({ children, }: { children: React.ReactNode }) {
   const [mobileOpened, { toggle: toggleMobile }] = useDisclosure();
@@ -28,9 +26,7 @@ export default function Shell({ children, }: { children: React.ReactNode }) {
           <Group>
             <Burger opened={mobileOpened} onClick={toggleMobile} hiddenFrom="sm" size="sm" />
             <Burger opened={desktopOpened} onClick={toggleDesktop} visibleFrom="sm" size="sm" />
-            <Link href="/">
-              <Image src={Play14Logo} width={166} height={50} alt="play14 logo" />
-            </Link>
+            <Logo />
           </Group>
           <Group justify='flex-end'>
             <Login />
