@@ -6,7 +6,7 @@ import Navbar from './Navbar';
 import { ColorSchemeToggle } from './ColorSchemeToggle';
 import Image from 'next/image';
 import Play14Logo from '/public/logo/play14_black_bg_transparent_500x150.png';
-import Login from './Login';
+import Login from './Auth/Login';
 import Link from 'next/link';
 
 export default function Shell({ children, }: { children: React.ReactNode }) {
@@ -44,7 +44,6 @@ export default function Shell({ children, }: { children: React.ReactNode }) {
       <AppShell.Main>
         {children}
       </AppShell.Main>
-
     </AppShell>
   )
 }

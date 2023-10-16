@@ -3,13 +3,14 @@ import { Text, Avatar, Button, Menu, UnstyledButton, Group} from '@mantine/core'
 import { IconAt, IconChevronDown, IconChevronRight, IconSettings, IconUser } from "@tabler/icons-react";
 import { useRouter } from 'next/navigation'
 import { useState } from "react";
+import Loading from "../Loading";
 
 export default function Login() {
-  const { data: session } = useSession()
+  const { status, data: session } = useSession()
   const router = useRouter()
   const [opened, setOpened] = useState(false)
 
-  if (session) {
+  if (status == 'authenticated') {
     return (
       <Menu 
         shadow="md" 
@@ -57,7 +58,5 @@ export default function Login() {
       </Menu>
     )
   }
-  return (
-    <Button onClick={() => signIn()}>Sign in</Button>
-  )
+  return  (status == 'loading') ? <Loading /> : <Button onClick={() => signIn()}>Sign in</Button>
 }

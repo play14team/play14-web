@@ -2,7 +2,7 @@
 
 import Cards from "@/components/Cards";
 import Loading from "@/components/Loading";
-import SingIn from "@/components/SingIn";
+import SignIn from "@/components/Auth/SignIn";
 import { Button, Code, Text, Title } from "@mantine/core";
 import { modals } from '@mantine/modals';
 import { notifications } from '@mantine/notifications';
@@ -36,7 +36,7 @@ export default function Home() {
       <Code>const scheme = useScheme()</Code>
       <Text>Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet nam fuga suscipit incidunt tenetur vero distinctio a repudiandae consectetur illo tempora, consequuntur impedit debitis. Facere quis velit amet placeat quae.</Text>
       <Loading />
-      <SingIn />
+      <SignIn />
       <Cards />
     </>
   )
