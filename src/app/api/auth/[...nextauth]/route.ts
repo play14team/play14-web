@@ -48,13 +48,20 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async jwt({ token, user, account, profile }) {
       if (account && account.access_token) {
-        token.accessToken = account.access_token
+        const url = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/${account?.provider.replace("azure-ad", "microsoft")}/callback?access_token=${account.access_token}`
+        const response = await fetch(url);
+        const data = await response.json();
+
+        token.jwt = data.jwt;
+        token.userid = data.user.id;
       }
 
       return token;
     },
     async session({ session, token, user }) {
-      session.accessToken = token.accessToken as string
+      session.jwt = token.jwt as string
+      session.user.id = token.userid as number
+
       return session;
     },
   }

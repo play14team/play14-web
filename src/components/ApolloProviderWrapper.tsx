@@ -12,7 +12,7 @@ export const ApolloProviderWrapper = ({ children }: PropsWithChildren<{}>) => {
 
   const client = useMemo(() => {
     const authMiddleware = setContext(async (operation, { headers }) => {
-      const token = session?.accessToken
+      const token = session?.jwt
       return {
         headers: {
           ...headers,
@@ -27,7 +27,7 @@ export const ApolloProviderWrapper = ({ children }: PropsWithChildren<{}>) => {
       link: link,
       cache: new InMemoryCache()
     })
-  }, [session?.accessToken])
+  }, [session?.jwt])
 
   return <ApolloProvider client={client}>{children}</ApolloProvider>
 }
