@@ -1,0 +1,22 @@
+query Home {
+  home {
+    data {
+      attributes {
+        images(pagination: { limit: 10000 }) {
+          data {
+            attributes {
+              name
+              url
+              width
+              height
+              hash
+              mime
+              provider
+              size
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -8,6 +8,6 @@ declare module "next-auth" {
     jwt: string,
     user: {
       id: number
-    }
+    } & DefaultSession['user']
   }
 }
