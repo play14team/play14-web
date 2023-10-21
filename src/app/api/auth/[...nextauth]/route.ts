@@ -3,31 +3,36 @@ import GoogleProvider from "next-auth/providers/google"
 import AzureADProvider from "next-auth/providers/azure-ad"
 import LinkedInProvider from "next-auth/providers/linkedin"
 import CredentialsProvider from "next-auth/providers/credentials"
+import axios from "axios"
+import { AdapterUser } from "next-auth/adapters"
+
+interface AuthenticatedUser extends AdapterUser {
+	jwt: String
+}
 
 export const authOptions: NextAuthOptions = {
 	providers: [
 		CredentialsProvider({
 			credentials: {
-				username: { label: "Username", type: "text" },
+				username: { label: "Email", type: "text" },
 				password: { label: "Password", type: "password" },
 			},
 			async authorize(credentials, req) {
-				// Add logic here to look up the user from the credentials supplied
-				const user = {
-					id: "1",
-					name: "J Smith",
-					email: "jsmith@example.com",
+				const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/local`, {
+					identifier: credentials?.username,
+					password: credentials?.password,
+				})
+
+				if (response.data.user) {
+					return {
+						id: response.data.user.id,
+						name: response.data.user.username,
+						email: response.data.user.email,
+						jwt: response.data.jwt,
+					}
 				}
 
-				if (user) {
-					// Any object returned will be saved in `user` property of the JWT
-					return user
-				} else {
-					// If you return null then an error will be displayed advising the user to check their details.
-					return null
-
-					// You can also Reject this callback with an Error thus the user will be sent to the error page with the error message as a query parameter
-				}
+				return null
 			},
 		}),
 		AzureADProvider({
@@ -60,6 +65,12 @@ export const authOptions: NextAuthOptions = {
 
 				token.jwt = data.jwt
 				token.userid = data.user.id
+			}
+
+			const authenticatedUser = user as AuthenticatedUser
+			if (authenticatedUser) {
+				token.jwt = authenticatedUser.jwt
+				token.userid = authenticatedUser.id
 			}
 
 			return token

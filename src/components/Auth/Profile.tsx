@@ -1,12 +1,11 @@
 "use client"
 
+import { Box, Button, Group, PasswordInput, Space, TextInput, Title, Collapse } from "@mantine/core"
 import axios from "axios"
+import { useDisclosure } from "@mantine/hooks"
 import { useForm } from "@mantine/form"
-import { TextInput, Checkbox, Button, Group, Box, PasswordInput, Title, Space } from "@mantine/core"
-import { signIn } from "next-auth/react"
-import { notifications } from "@mantine/notifications"
 
-interface RegistrationInfo {
+interface User {
 	username: string
 	email: string
 	password: string
@@ -14,7 +13,8 @@ interface RegistrationInfo {
 	termsOfService: boolean
 }
 
-export default function Register() {
+export default function Profile() {
+	const [opened, { toggle }] = useDisclosure(false)
 	const form = useForm({
 		validateInputOnBlur: true,
 		initialValues: {
@@ -35,33 +35,36 @@ export default function Register() {
 		},
 	})
 
-	async function register(values: RegistrationInfo) {
+	async function save(values: User) {
 		try {
-			const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/local/register`, values)
-			signIn("credentials", {
-				username: values.username,
-				password: values.password,
-				redirect: true,
-				callbackUrl: "/",
-			})
+			const response = await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/api/users`, values)
+			console.log(response.data)
 		} catch (err) {
 			console.log(err)
-			notifications.show({
-				title: "Error registering user",
-				message: err.response.data.error.message,
-			})
 		}
 	}
 
 	return (
-		<Box maw={340} mx="auto">
-			<Title>Register</Title>
+		<Box maw={500} pl={15}>
+			<Title>Profile</Title>
 			<Space h="md" />
-			<form onSubmit={form.onSubmit(values => register(values as RegistrationInfo))}>
-				<TextInput withAsterisk label="Name" placeholder="John Doe" {...form.getInputProps("username")} />
+			<form onSubmit={form.onSubmit(values => register(values as User))}>
+				<TextInput withAsterisk label="Name" placeholder="Firstname Lastname" {...form.getInputProps("username")} />
 
 				<TextInput withAsterisk label="Email" placeholder="your@email.com" {...form.getInputProps("email")} />
 
+				<Group justify="flex-end" mt="md">
+					<Button type="submit" disabled={!form.isValid()}>
+						Save
+					</Button>
+				</Group>
+			</form>
+
+			<Group justify="center" mb={5}>
+				<Button onClick={toggle}>Change password</Button>
+			</Group>
+
+			<Collapse in={opened}>
 				<PasswordInput label="Password" placeholder="Password" {...form.getInputProps("password")} />
 
 				<PasswordInput
@@ -70,18 +73,7 @@ export default function Register() {
 					placeholder="Confirm password"
 					{...form.getInputProps("confirmPassword")}
 				/>
-				<Checkbox
-					mt="md"
-					label="I agree the terms of service"
-					{...form.getInputProps("termsOfService", { type: "checkbox" })}
-				/>
-
-				<Group justify="flex-end" mt="md">
-					<Button type="submit" disabled={!form.isValid()}>
-						Submit
-					</Button>
-				</Group>
-			</form>
+			</Collapse>
 		</Box>
 	)
 }

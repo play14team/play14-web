@@ -1,10 +1,10 @@
 import Authenticated from "@/components/Auth/Authenticated"
-import { Title } from "@mantine/core"
+import Profile from "@/components/Auth/Profile"
 
-export default function Profile() {
+export default function ProfilePage() {
 	return (
 		<Authenticated>
-			<Title>Profile page</Title>
+			<Profile />
 		</Authenticated>
 	)
 }

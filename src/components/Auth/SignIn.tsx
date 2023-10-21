@@ -57,5 +57,13 @@ export default function SignIn() {
 			</Menu>
 		)
 	}
-	return status == "loading" ? <Loading /> : <Button onClick={() => signIn()}>Sign in</Button>
+
+	if (status == "loading") return <Loading />
+
+	return (
+		<Group gap={10}>
+			<Button onClick={() => router.push("/register")}>Register</Button>
+			<Button onClick={() => signIn()}>Sign in</Button>
+		</Group>
+	)
 }

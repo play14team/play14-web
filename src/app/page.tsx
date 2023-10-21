@@ -1,7 +1,7 @@
 "use client"
 
 import Cards from "@/components/Cards"
-import { Button, Code, Text, Title } from "@mantine/core"
+import { Button, Code, Space, Text, Title } from "@mantine/core"
 import { modals } from "@mantine/modals"
 import { notifications } from "@mantine/notifications"
 
@@ -31,13 +31,16 @@ export default function Home() {
 	return (
 		<>
 			<Title>Welcome to #play14</Title>
+			<Space h="xl" />
 			<Button onClick={openModal}>Confirm me</Button>
-			<br></br>
+			<Space h="xl" />
 			<Code>const scheme = useScheme()</Code>
+			<Space h="xl" />
 			<Text>
 				Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet nam fuga suscipit incidunt tenetur vero distinctio
 				a repudiandae consectetur illo tempora, consequuntur impedit debitis. Facere quis velit amet placeat quae.
 			</Text>
+			<Space h="xl" />
 			<Cards />
 		</>
 	)
