@@ -1,131 +1,131 @@
 query Event($slug: String!) {
-  events(filters: { slug: { eq: $slug } }) {
-    data {
-      attributes {
-        ...EventDetails
-      }
-    }
-  }
+	events(filters: { slug: { eq: $slug } }) {
+		data {
+			attributes {
+				...EventDetails
+			}
+		}
+	}
 }
 
 fragment EventDetails on Event {
-  slug
-  name
-  start
-  end
-  timezone
-  status
-  description
-  contactEmail
-  defaultImage {
-    data {
-      attributes {
-        name
-        url
-      }
-    }
-  }
-  images(pagination: { limit: 10000 }) {
-    data {
-      attributes {
-        name
-        url
-        width
-        height
-        hash
-        mime
-        provider
-        size
-      }
-    }
-  }
-  location {
-    data {
-      attributes {
-        name
-        country
-        location
-      }
-    }
-  }
-  venue {
-    data {
-      attributes {
-        name
-        website
-        location
-        addressDetails
-      }
-    }
-  }
-  timetable {
-    id
-    day
-    description
-    timeslots(pagination: { limit: 10000 }) {
-      id
-      time
-      description
-    }
-  }
-  registration {
-    link
-    widgetCode
-  }
-  sponsorships(pagination: { limit: 10000 }) {
-    id
-    category
-    sponsors {
-      data {
-        id
-        attributes {
-          name
-          url
-          logo {
-            data {
-              attributes {
-                name
-                url
-                blurhash
-              }
-            }
-          }
-          socialNetworks {
-            id
-            type
-            url
-          }
-        }
-      }
-    }
-  }
-  hosts(sort: "name", pagination: { limit: 10000 }) {
-    data {
-      id
-      attributes {
-        ...PlayerItem
-      }
-    }
-  }
-  mentors(sort: "name", pagination: { limit: 10000 }) {
-    data {
-      id
-      attributes {
-        ...PlayerItem
-      }
-    }
-  }
-  players(sort: "name", pagination: { limit: 10000 }) {
-    data {
-      id
-      attributes {
-        ...PlayerItem
-      }
-    }
-  }
-  media {
-    id
-    url
-    type
-  }
+	slug
+	name
+	start
+	end
+	timezone
+	status
+	description
+	contactEmail
+	defaultImage {
+		data {
+			attributes {
+				name
+				url
+			}
+		}
+	}
+	images(pagination: { limit: 10000 }) {
+		data {
+			attributes {
+				name
+				url
+				width
+				height
+				hash
+				mime
+				provider
+				size
+			}
+		}
+	}
+	location {
+		data {
+			attributes {
+				name
+				country
+				location
+			}
+		}
+	}
+	venue {
+		data {
+			attributes {
+				name
+				website
+				location
+				addressDetails
+			}
+		}
+	}
+	timetable {
+		id
+		day
+		description
+		timeslots(pagination: { limit: 10000 }) {
+			id
+			time
+			description
+		}
+	}
+	registration {
+		link
+		widgetCode
+	}
+	sponsorships(pagination: { limit: 10000 }) {
+		id
+		category
+		sponsors {
+			data {
+				id
+				attributes {
+					name
+					url
+					logo {
+						data {
+							attributes {
+								name
+								url
+								blurhash
+							}
+						}
+					}
+					socialNetworks {
+						id
+						type
+						url
+					}
+				}
+			}
+		}
+	}
+	hosts(sort: "name", pagination: { limit: 10000 }) {
+		data {
+			id
+			attributes {
+				...PlayerItem
+			}
+		}
+	}
+	mentors(sort: "name", pagination: { limit: 10000 }) {
+		data {
+			id
+			attributes {
+				...PlayerItem
+			}
+		}
+	}
+	players(sort: "name", pagination: { limit: 10000 }) {
+		data {
+			id
+			attributes {
+				...PlayerItem
+			}
+		}
+	}
+	media {
+		id
+		url
+		type
+	}
 }

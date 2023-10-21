@@ -1,34 +1,34 @@
 query Search($input: String!) {
-  search(query: $input) {
-    events {
-      data {
-        id
-        attributes {
-          ...EventItem
-        }
-      }
-    }
-    players {
-      data {
-        id
-        attributes {
-          ...PlayerItem
-        }
-      }
-    }
-    games {
-      data {
-        attributes {
-          ...GameItem
-        }
-      }
-    }
-    articles {
-      data {
-        attributes {
-          ...ArticleItem
-        }
-      }
-    }
-  }
+	search(query: $input) {
+		events {
+			data {
+				id
+				attributes {
+					...EventItem
+				}
+			}
+		}
+		players {
+			data {
+				id
+				attributes {
+					...PlayerItem
+				}
+			}
+		}
+		games {
+			data {
+				attributes {
+					...GameItem
+				}
+			}
+		}
+		articles {
+			data {
+				attributes {
+					...ArticleItem
+				}
+			}
+		}
+	}
 }
