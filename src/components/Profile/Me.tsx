@@ -1,3 +1,5 @@
+import { Title } from "@mantine/core"
+
 export default function Me() {
-	return <div>Me</div>
+	return <Title>Me</Title>
 }

@@ -5,7 +5,7 @@ export default function page() {
 	return (
 		<Stack gap={50}>
 			<Title>Upcoming events</Title>
-			<EventCards number={8} />
+			<EventCards number={6} />
 		</Stack>
 	)
 }

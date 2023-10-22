@@ -1,20 +1,20 @@
 "use client"
 
 import { Grid } from "@mantine/core"
-import EventCard from "./EventCard"
+import PlayerCard from "./PlayerCard"
 
-interface EventCardsProps {
+interface PlayerCardsProps {
 	number: number
 }
 
-export default function EventCards({ number }: EventCardsProps) {
+export default function PlayerCards({ number }: PlayerCardsProps) {
 	return (
 		<Grid justify="flex-start">
 			{Array(number)
 				.fill(0)
 				.map((_, index) => (
 					<Grid.Col key={index} span={{ base: 12, md: 6, lg: 3 }}>
-						<EventCard />
+						<PlayerCard />
 					</Grid.Col>
 				))}
 		</Grid>
