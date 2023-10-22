@@ -1,65 +1,114 @@
-import { useSession, signIn, signOut } from "next-auth/react"
-import { Text, Avatar, Button, Menu, UnstyledButton, Group, Space } from "@mantine/core"
-import { IconAt, IconChevronDown, IconChevronRight, IconSettings, IconUser } from "@tabler/icons-react"
+import { useSession, signIn } from "next-auth/react"
+import { Button, Group, Modal, Box, TextInput, PasswordInput, Text, Divider, Stack, ActionIcon } from "@mantine/core"
+import { IconBrandAzure, IconBrandGoogle, IconBrandLinkedin, IconKey, IconUser } from "@tabler/icons-react"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
-import Loading from "../Shell/Loading"
-import Register from "./Register"
+import { useForm } from "@mantine/form"
+import { useDisclosure } from "@mantine/hooks"
+import { notifications } from "@mantine/notifications"
+
+interface RegistrationInfo {
+	username: string
+	password: string
+}
 
 export default function SignIn() {
 	const { status, data: session } = useSession()
 	const router = useRouter()
-	const [opened, setOpened] = useState(false)
+	const [menuOpened, setMenuOpened] = useState(false)
+	const [modalOpened, { open, close }] = useDisclosure(false)
+	const form = useForm({
+		validateInputOnBlur: true,
+		initialValues: {
+			username: "",
+			password: "",
+		},
 
-	if (status == "authenticated") {
+		validate: {
+			username: value => (value.length < 2 ? "Username must have at least 2 letters" : null),
+			password: value => (value.length < 8 ? "Password must have at least 8 letters" : null),
+		},
+	})
+
+	async function login(values: RegistrationInfo) {
+		try {
+			console.log("Here I log", values)
+			await signIn("credentials", {
+				username: values.username,
+				password: values.password,
+				redirect: true,
+				callbackUrl: "/",
+			})
+		} catch (err: any) {
+			console.log(err)
+			notifications.show({
+				title: "Error signing user in",
+				message: err.response.data.error.message,
+			})
+		}
+	}
+
+	if (status == "unauthenticated") {
 		return (
-			<Menu
-				shadow="md"
-				radius={5}
-				position="bottom-start"
-				trigger="hover"
-				openDelay={200}
-				closeDelay={400}
-				opened={opened}
-				onChange={setOpened}>
-				<Menu.Target>
-					<UnstyledButton>
-						<Group gap={7}>
-							<Avatar src={session.user?.image} />
-							<Text>{session.user?.name}</Text>
-							{opened ? <IconChevronDown size="1rem" /> : <IconChevronRight size="1rem" />}
-						</Group>
-					</UnstyledButton>
-				</Menu.Target>
-				<Menu.Dropdown>
-					<Menu.Label>User</Menu.Label>
-					<Menu.Label>
-						<Group gap={10}>
-							<IconUser size={14} />
-							<Text>{session.user?.name}</Text>
-						</Group>
-					</Menu.Label>
-					<Menu.Label>
-						<Group gap={10}>
-							<IconAt size={14} />
-							<Text>{session.user?.email}</Text>
-						</Group>
-					</Menu.Label>
-					<Menu.Divider />
-					<Menu.Label>Application</Menu.Label>
-					<Menu.Item leftSection={<IconSettings size={14} />} onClick={() => router.push("/profile")}>
-						Profile
-					</Menu.Item>
-					<Menu.Divider />
-					<Menu.Label>
-						<Button onClick={() => signOut()}>Sign out</Button>
-					</Menu.Label>
-				</Menu.Dropdown>
-			</Menu>
+			<>
+				<Button onClick={open}>Sign in</Button>
+
+				<Modal opened={modalOpened} onClose={close} title="Sign In">
+					<Box maw={360} mx="auto" mt={20} mb={20}>
+						<Stack gap={30}>
+							<form onSubmit={form.onSubmit(values => login(values as RegistrationInfo))}>
+								<Stack gap={15}>
+									<TextInput
+										withAsterisk
+										label="Username or email"
+										{...form.getInputProps("username")}
+										leftSection={<IconUser />}
+									/>
+
+									<PasswordInput
+										withAsterisk
+										label="Password"
+										placeholder="Password"
+										{...form.getInputProps("password")}
+										leftSection={<IconKey />}
+									/>
+
+									<Group justify="flex-end" mt="md">
+										<Button type="submit" disabled={!form.isValid()}>
+											Sign in
+										</Button>
+									</Group>
+								</Stack>
+							</form>
+
+							<Divider my="xs" label="or" labelPosition="center" />
+
+							<Group gap={40} justify="center">
+								<Stack align="center">
+									<ActionIcon variant="default" aria-label="Google" size={75} onClick={() => signIn("google")}>
+										<IconBrandGoogle stroke={3} size={50} />
+									</ActionIcon>
+									<Text>Google</Text>
+								</Stack>
+								<Stack align="center">
+									<ActionIcon variant="default" aria-label="Azure" size={75} onClick={() => signIn("azure-ad")}>
+										<IconBrandAzure stroke={3} size={50} />
+									</ActionIcon>
+									<Text>Azure AD</Text>
+								</Stack>
+								<Stack align="center">
+									<ActionIcon variant="default" aria-label="LinkeIn" size={75} onClick={() => signIn("linkedin")}>
+										<IconBrandLinkedin stroke={3} size={50} />
+									</ActionIcon>
+									<Text>LinkedIn</Text>
+								</Stack>
+							</Group>
+						</Stack>
+					</Box>
+				</Modal>
+			</>
 		)
 	}
 
-	if (status == "loading") return <Loading />
-
-	return <Button onClick={() => signIn()}>Sign in</Button>
+	return
 }

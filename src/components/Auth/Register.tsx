@@ -2,11 +2,11 @@
 
 import axios from "axios"
 import { useForm } from "@mantine/form"
-import { TextInput, Checkbox, Button, Group, Box, PasswordInput, Title, Space, Modal } from "@mantine/core"
+import { TextInput, Checkbox, Button, Group, Box, PasswordInput, Modal, Stack } from "@mantine/core"
 import { signIn, useSession } from "next-auth/react"
 import { notifications } from "@mantine/notifications"
 import { useDisclosure } from "@mantine/hooks"
-import { IconKey, IconMail, IconUser } from "@tabler/icons-react"
+import { IconAt, IconKey, IconUser } from "@tabler/icons-react"
 
 interface RegistrationInfo {
 	username: string
@@ -42,7 +42,7 @@ export default function Register() {
 	async function register(values: RegistrationInfo) {
 		try {
 			const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/local/register`, values)
-			signIn("credentials", {
+			await signIn("credentials", {
 				username: values.username,
 				password: values.password,
 				redirect: true,
@@ -62,52 +62,56 @@ export default function Register() {
 	return (
 		<>
 			<Button onClick={open}>Register</Button>
-			<Modal opened={opened} onClose={close} title="Register">
-				<Box maw={340} mx="auto">
-					<Space h="md" />
-					<form onSubmit={form.onSubmit(values => register(values as RegistrationInfo))}>
-						<TextInput
-							withAsterisk
-							label="Name"
-							placeholder="John Doe"
-							{...form.getInputProps("username")}
-							leftSection={<IconUser />}
-						/>
-						<Space h="xs" />
-						<TextInput
-							withAsterisk
-							label="Email"
-							placeholder="your@email.com"
-							{...form.getInputProps("email")}
-							leftSection={<IconMail />}
-						/>
-						<Space h="xs" />
-						<PasswordInput
-							label="Password"
-							placeholder="Password"
-							{...form.getInputProps("password")}
-							leftSection={<IconKey />}
-						/>
-						<Space h="xs" />
-						<PasswordInput
-							mt="sm"
-							label="Confirm password"
-							placeholder="Confirm password"
-							{...form.getInputProps("confirmPassword")}
-							leftSection={<IconKey />}
-						/>
-						<Space h="xs" />
-						<Checkbox
-							mt="md"
-							label="I agree the terms of service"
-							{...form.getInputProps("termsOfService", { type: "checkbox" })}
-						/>
 
-						<Group justify="flex-end" mt="xl">
-							<Button type="submit" disabled={!form.isValid()}>
-								Submit
-							</Button>
-						</Group>
+			<Modal opened={opened} onClose={close} title="Register">
+				<Box maw={360} mx="auto" mt={20} mb={20}>
+					<form onSubmit={form.onSubmit(values => register(values as RegistrationInfo))}>
+						<Stack gap={15}>
+							<TextInput
+								withAsterisk
+								label="Name"
+								placeholder="John Doe"
+								{...form.getInputProps("username")}
+								leftSection={<IconUser />}
+							/>
+
+							<TextInput
+								withAsterisk
+								label="Email"
+								placeholder="your@email.com"
+								{...form.getInputProps("email")}
+								leftSection={<IconAt />}
+							/>
+
+							<PasswordInput
+								withAsterisk
+								label="Password"
+								placeholder="Password"
+								{...form.getInputProps("password")}
+								leftSection={<IconKey />}
+							/>
+
+							<PasswordInput
+								withAsterisk
+								mt="sm"
+								label="Confirm password"
+								placeholder="Confirm password"
+								{...form.getInputProps("confirmPassword")}
+								leftSection={<IconKey />}
+							/>
+
+							<Checkbox
+								mt="md"
+								label="I agree the terms of service"
+								{...form.getInputProps("termsOfService", { type: "checkbox" })}
+							/>
+
+							<Group justify="flex-end" mt="md">
+								<Button type="submit" disabled={!form.isValid()}>
+									Submit
+								</Button>
+							</Group>
+						</Stack>
 					</form>
 				</Box>
 			</Modal>

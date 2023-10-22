@@ -9,6 +9,7 @@ import SignIn from "../Auth/SignIn"
 import { ColorSchemeToggle } from "./ColorSchemeToggle"
 import Register from "../Auth/Register"
 import { useDisclosure } from "@mantine/hooks"
+import User from "./User"
 
 export default function Shell({ children }: PropsWithChildren<{}>) {
 	const [mobileOpened, { toggle: toggleMobile }] = useDisclosure()
@@ -31,6 +32,7 @@ export default function Shell({ children }: PropsWithChildren<{}>) {
 						<Logo h={55} quality="xs" />
 					</Group>
 					<Group justify="flex-end">
+						<User />
 						<Register />
 						<SignIn />
 						<ColorSchemeToggle />

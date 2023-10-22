@@ -1,5 +1,10 @@
 import { Title } from "@mantine/core"
+import Authenticated from "../Auth/Authenticated"
 
 export default function Me() {
-	return <Title>Me</Title>
+	return (
+		<Authenticated>
+			<Title>Me</Title>
+		</Authenticated>
+	)
 }
