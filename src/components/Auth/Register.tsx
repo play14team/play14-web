@@ -2,9 +2,11 @@
 
 import axios from "axios"
 import { useForm } from "@mantine/form"
-import { TextInput, Checkbox, Button, Group, Box, PasswordInput, Title, Space } from "@mantine/core"
-import { signIn } from "next-auth/react"
+import { TextInput, Checkbox, Button, Group, Box, PasswordInput, Title, Space, Modal } from "@mantine/core"
+import { signIn, useSession } from "next-auth/react"
 import { notifications } from "@mantine/notifications"
+import { useDisclosure } from "@mantine/hooks"
+import { IconKey, IconMail, IconUser } from "@tabler/icons-react"
 
 interface RegistrationInfo {
 	username: string
@@ -15,6 +17,8 @@ interface RegistrationInfo {
 }
 
 export default function Register() {
+	const { status } = useSession()
+	const [opened, { open, close }] = useDisclosure(false)
 	const form = useForm({
 		validateInputOnBlur: true,
 		initialValues: {
@@ -44,7 +48,7 @@ export default function Register() {
 				redirect: true,
 				callbackUrl: "/",
 			})
-		} catch (err) {
+		} catch (err: any) {
 			console.log(err)
 			notifications.show({
 				title: "Error registering user",
@@ -53,35 +57,60 @@ export default function Register() {
 		}
 	}
 
+	if (status == "authenticated" || status == "loading") return
+
 	return (
-		<Box maw={340} mx="auto">
-			<Title>Register</Title>
-			<Space h="md" />
-			<form onSubmit={form.onSubmit(values => register(values as RegistrationInfo))}>
-				<TextInput withAsterisk label="Name" placeholder="John Doe" {...form.getInputProps("username")} />
+		<>
+			<Button onClick={open}>Register</Button>
+			<Modal opened={opened} onClose={close} title="Register">
+				<Box maw={340} mx="auto">
+					<Space h="md" />
+					<form onSubmit={form.onSubmit(values => register(values as RegistrationInfo))}>
+						<TextInput
+							withAsterisk
+							label="Name"
+							placeholder="John Doe"
+							{...form.getInputProps("username")}
+							leftSection={<IconUser />}
+						/>
+						<Space h="xs" />
+						<TextInput
+							withAsterisk
+							label="Email"
+							placeholder="your@email.com"
+							{...form.getInputProps("email")}
+							leftSection={<IconMail />}
+						/>
+						<Space h="xs" />
+						<PasswordInput
+							label="Password"
+							placeholder="Password"
+							{...form.getInputProps("password")}
+							leftSection={<IconKey />}
+						/>
+						<Space h="xs" />
+						<PasswordInput
+							mt="sm"
+							label="Confirm password"
+							placeholder="Confirm password"
+							{...form.getInputProps("confirmPassword")}
+							leftSection={<IconKey />}
+						/>
+						<Space h="xs" />
+						<Checkbox
+							mt="md"
+							label="I agree the terms of service"
+							{...form.getInputProps("termsOfService", { type: "checkbox" })}
+						/>
 
-				<TextInput withAsterisk label="Email" placeholder="your@email.com" {...form.getInputProps("email")} />
-
-				<PasswordInput label="Password" placeholder="Password" {...form.getInputProps("password")} />
-
-				<PasswordInput
-					mt="sm"
-					label="Confirm password"
-					placeholder="Confirm password"
-					{...form.getInputProps("confirmPassword")}
-				/>
-				<Checkbox
-					mt="md"
-					label="I agree the terms of service"
-					{...form.getInputProps("termsOfService", { type: "checkbox" })}
-				/>
-
-				<Group justify="flex-end" mt="md">
-					<Button type="submit" disabled={!form.isValid()}>
-						Submit
-					</Button>
-				</Group>
-			</form>
-		</Box>
+						<Group justify="flex-end" mt="xl">
+							<Button type="submit" disabled={!form.isValid()}>
+								Submit
+							</Button>
+						</Group>
+					</form>
+				</Box>
+			</Modal>
+		</>
 	)
 }

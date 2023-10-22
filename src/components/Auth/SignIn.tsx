@@ -3,7 +3,8 @@ import { Text, Avatar, Button, Menu, UnstyledButton, Group, Space } from "@manti
 import { IconAt, IconChevronDown, IconChevronRight, IconSettings, IconUser } from "@tabler/icons-react"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
-import Loading from "../Loading"
+import Loading from "../Shell/Loading"
+import Register from "./Register"
 
 export default function SignIn() {
 	const { status, data: session } = useSession()
@@ -60,10 +61,5 @@ export default function SignIn() {
 
 	if (status == "loading") return <Loading />
 
-	return (
-		<Group gap={10}>
-			<Button onClick={() => router.push("/register")}>Register</Button>
-			<Button onClick={() => signIn()}>Sign in</Button>
-		</Group>
-	)
+	return <Button onClick={() => signIn()}>Sign in</Button>
 }

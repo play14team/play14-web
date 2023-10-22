@@ -6,8 +6,8 @@ import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 
 import { ColorSchemeScript } from "@mantine/core"
-import { Providers } from "../components/Providers"
-import Shell from "@/components/Shell"
+import { Providers } from "../components/Providers/Providers"
+import Shell from "@/components/Shell/Shell"
 import { PropsWithChildren } from "react"
 
 const inter = Inter({ subsets: ["latin"] })

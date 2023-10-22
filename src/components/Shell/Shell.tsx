@@ -1,12 +1,14 @@
 "use client"
 
-import { AppShell, Burger, Group } from "@mantine/core"
-import { useDisclosure } from "@mantine/hooks"
+import { AppShell, Burger, Group, ScrollArea } from "@mantine/core"
+import { PropsWithChildren, useState } from "react"
 import Navbar from "./Navbar"
-import { ColorSchemeToggle } from "./ColorSchemeToggle"
-import SignIn from "./Auth/SignIn"
+import Copyright from "./Copyright"
 import Logo from "./Logo"
-import { PropsWithChildren } from "react"
+import SignIn from "../Auth/SignIn"
+import { ColorSchemeToggle } from "./ColorSchemeToggle"
+import Register from "../Auth/Register"
+import { useDisclosure } from "@mantine/hooks"
 
 export default function Shell({ children }: PropsWithChildren<{}>) {
 	const [mobileOpened, { toggle: toggleMobile }] = useDisclosure()
@@ -26,17 +28,26 @@ export default function Shell({ children }: PropsWithChildren<{}>) {
 					<Group>
 						<Burger opened={mobileOpened} onClick={toggleMobile} hiddenFrom="sm" size="sm" />
 						<Burger opened={desktopOpened} onClick={toggleDesktop} visibleFrom="sm" size="sm" />
-						<Logo />
+						<Logo h={55} quality="xs" />
 					</Group>
 					<Group justify="flex-end">
+						<Register />
 						<SignIn />
 						<ColorSchemeToggle />
 					</Group>
 				</Group>
 			</AppShell.Header>
+
 			<AppShell.Navbar p="md">
-				<Navbar />
+				<AppShell.Section grow my="md" component={ScrollArea}>
+					<Navbar />
+				</AppShell.Section>
+
+				<AppShell.Section>
+					<Copyright />
+				</AppShell.Section>
 			</AppShell.Navbar>
+
 			<AppShell.Main>{children}</AppShell.Main>
 		</AppShell>
 	)

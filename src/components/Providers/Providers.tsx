@@ -5,8 +5,8 @@ import { ModalsProvider } from "@mantine/modals"
 import { Notifications } from "@mantine/notifications"
 import { SessionProvider } from "next-auth/react"
 import { PropsWithChildren } from "react"
-import { theme } from "../theme"
-import { ApolloProviderWrapper } from "./ApolloProviderWrapper"
+import { theme } from "../../theme"
+import ReactQueryProvider from "./ReactQueryProvider"
 
 export function Providers({ children }: PropsWithChildren<{}>) {
 	return (
@@ -14,7 +14,7 @@ export function Providers({ children }: PropsWithChildren<{}>) {
 			<Notifications />
 			<ModalsProvider>
 				<SessionProvider>
-					<ApolloProviderWrapper>{children}</ApolloProviderWrapper>
+					<ReactQueryProvider>{children}</ReactQueryProvider>
 				</SessionProvider>
 				;
 			</ModalsProvider>

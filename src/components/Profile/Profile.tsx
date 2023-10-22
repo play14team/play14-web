@@ -1,6 +1,6 @@
 "use client"
 
-import { Box, Button, Group, PasswordInput, Space, TextInput, Title, Collapse } from "@mantine/core"
+import { Box, Button, Group, PasswordInput, Space, TextInput, Title, Collapse, Fieldset } from "@mantine/core"
 import axios from "axios"
 import { useDisclosure } from "@mantine/hooks"
 import { useForm } from "@mantine/form"
@@ -48,10 +48,11 @@ export default function Profile() {
 		<Box maw={500} pl={15}>
 			<Title>Profile</Title>
 			<Space h="md" />
-			<form onSubmit={form.onSubmit(values => register(values as User))}>
-				<TextInput withAsterisk label="Name" placeholder="Firstname Lastname" {...form.getInputProps("username")} />
-
-				<TextInput withAsterisk label="Email" placeholder="your@email.com" {...form.getInputProps("email")} />
+			<form onSubmit={form.onSubmit(values => save(values as User))}>
+				<Fieldset legend="User information">
+					<TextInput withAsterisk label="Name" placeholder="Firstname Lastname" {...form.getInputProps("username")} />
+					<TextInput withAsterisk label="Email" placeholder="your@email.com" {...form.getInputProps("email")} />
+				</Fieldset>
 
 				<Group justify="flex-end" mt="md">
 					<Button type="submit" disabled={!form.isValid()}>

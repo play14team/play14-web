@@ -1,7 +1,8 @@
 "use client"
 
-import Cards from "@/components/Cards"
-import { Button, Code, Space, Text, Title } from "@mantine/core"
+import EventCards from "@/components/Events/EventCards"
+import Logo from "@/components/Shell/Logo"
+import { Button, Center, Code, Space, Text, Title } from "@mantine/core"
 import { modals } from "@mantine/modals"
 import { notifications } from "@mantine/notifications"
 
@@ -30,6 +31,9 @@ export default function Home() {
 
 	return (
 		<>
+			<Center>
+				<Logo h={200} quality="md" />
+			</Center>
 			<Title>Welcome to #play14</Title>
 			<Space h="xl" />
 			<Button onClick={openModal}>Confirm me</Button>
@@ -41,7 +45,7 @@ export default function Home() {
 				a repudiandae consectetur illo tempora, consequuntur impedit debitis. Facere quis velit amet placeat quae.
 			</Text>
 			<Space h="xl" />
-			<Cards />
+			<EventCards number={4} />
 		</>
 	)
 }

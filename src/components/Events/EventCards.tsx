@@ -3,10 +3,14 @@
 import { Grid } from "@mantine/core"
 import EventCard from "./EventCard"
 
-export default function Cards() {
+interface EventCardsProps {
+	number: number
+}
+
+export default function EventCards({ number }: EventCardsProps) {
 	return (
 		<Grid justify="space-around">
-			{Array(12)
+			{Array(number)
 				.fill(0)
 				.map((_, index) => (
 					<Grid.Col key={index} span={{ base: 12, md: 6, lg: 3 }}>

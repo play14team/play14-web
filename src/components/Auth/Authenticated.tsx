@@ -2,7 +2,7 @@
 
 import { useSession } from "next-auth/react"
 import { PropsWithChildren } from "react"
-import Loading from "../Loading"
+import Loading from "../Shell/Loading"
 import AccessDenied from "./AccessDenied"
 
 export default function Authenticated({ children }: PropsWithChildren<{}>) {
