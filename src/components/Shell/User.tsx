@@ -1,6 +1,6 @@
-import { useSession, signOut } from "next-auth/react"
-import { Text, Avatar, Button, Menu, UnstyledButton, Group } from "@mantine/core"
-import { IconAt, IconChevronDown, IconChevronRight, IconSettings, IconUser } from "@tabler/icons-react"
+import { Avatar, Button, Group, Menu, Text, UnstyledButton } from "@mantine/core"
+import { IconAt, IconChevronDown, IconChevronRight, IconKey, IconTool, IconUser } from "@tabler/icons-react"
+import { signOut, useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 import Loading from "../Shell/Loading"
@@ -47,9 +47,12 @@ export default function SignIn() {
 						</Group>
 					</Menu.Label>
 					<Menu.Divider m={10} />
-					<Menu.Label>Application</Menu.Label>
-					<Menu.Item leftSection={<IconSettings size={14} />} onClick={() => router.push("/profile")}>
+					<Menu.Label>Actions</Menu.Label>
+					<Menu.Item leftSection={<IconTool size={14} />} onClick={() => router.push("/profile")}>
 						User profile
+					</Menu.Item>
+					<Menu.Item leftSection={<IconKey size={14} />} onClick={() => router.push("/profile/changepassword")}>
+						Change password
 					</Menu.Item>
 					<Menu.Divider m={10} />
 					<Menu.Label mb={10} mt={10}>

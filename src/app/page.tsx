@@ -2,7 +2,7 @@
 
 import EventCards from "@/components/Events/EventCards"
 import Logo from "@/components/Shell/Logo"
-import { Button, Center, Code, Space, Text, Title } from "@mantine/core"
+import { Button, Code, Space, Stack, Text, Title } from "@mantine/core"
 import { modals } from "@mantine/modals"
 import { notifications } from "@mantine/notifications"
 
@@ -31,10 +31,10 @@ export default function Home() {
 
 	return (
 		<>
-			<Center>
+			<Stack align="center">
 				<Logo h={200} quality="md" />
-			</Center>
-			<Title>Welcome to #play14</Title>
+				<Title>Play is we way</Title>
+			</Stack>
 			<Space h="xl" />
 			<Button onClick={openModal}>Confirm me</Button>
 			<Space h="xl" />

@@ -1,12 +1,12 @@
 "use client"
 
-import axios from "axios"
+import { Box, Button, Checkbox, Group, Modal, PasswordInput, Stack, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
-import { TextInput, Checkbox, Button, Group, Box, PasswordInput, Modal, Stack } from "@mantine/core"
-import { signIn, useSession } from "next-auth/react"
-import { notifications } from "@mantine/notifications"
 import { useDisclosure } from "@mantine/hooks"
+import { notifications } from "@mantine/notifications"
 import { IconAt, IconKey, IconUser } from "@tabler/icons-react"
+import axios from "axios"
+import { signIn, useSession } from "next-auth/react"
 
 interface RegistrationInfo {
 	username: string
@@ -46,7 +46,7 @@ export default function Register() {
 				username: values.username,
 				password: values.password,
 				redirect: true,
-				callbackUrl: "/",
+				callbackUrl: "/players/me",
 			})
 		} catch (err: any) {
 			console.log(err)
@@ -70,7 +70,7 @@ export default function Register() {
 							<TextInput
 								withAsterisk
 								label="Name"
-								placeholder="John Doe"
+								placeholder="Your name"
 								{...form.getInputProps("username")}
 								leftSection={<IconUser />}
 							/>

@@ -1,11 +1,11 @@
-import { useSession, signIn } from "next-auth/react"
-import { Button, Group, Modal, Box, TextInput, PasswordInput, Text, Divider, Stack, ActionIcon } from "@mantine/core"
-import { IconBrandAzure, IconBrandGoogle, IconBrandLinkedin, IconKey, IconUser } from "@tabler/icons-react"
-import { useRouter } from "next/navigation"
-import { useState } from "react"
+import { ActionIcon, Box, Button, Divider, Group, Modal, PasswordInput, Stack, Text, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { useDisclosure } from "@mantine/hooks"
 import { notifications } from "@mantine/notifications"
+import { IconBrandAzure, IconBrandGoogle, IconBrandLinkedin, IconKey, IconUser } from "@tabler/icons-react"
+import { signIn, useSession } from "next-auth/react"
+import { useRouter } from "next/navigation"
+import { useState } from "react"
 
 interface RegistrationInfo {
 	username: string
