@@ -9,7 +9,7 @@ interface EventCardsProps {
 
 export default function EventCards({ number }: EventCardsProps) {
 	return (
-		<Grid justify="flex-start">
+		<Grid justify="flex-start" gutter="xl" m={50}>
 			{Array(number)
 				.fill(0)
 				.map((_, index) => (

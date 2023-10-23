@@ -1,10 +1,11 @@
-import NextAuth, { NextAuthOptions } from "next-auth"
-import GoogleProvider from "next-auth/providers/google"
-import AzureADProvider from "next-auth/providers/azure-ad"
-import LinkedInProvider from "next-auth/providers/linkedin"
-import CredentialsProvider from "next-auth/providers/credentials"
+import { clearJwt, setJwt } from "@/utils/jwt"
 import axios from "axios"
+import NextAuth, { NextAuthOptions } from "next-auth"
 import { AdapterUser } from "next-auth/adapters"
+import AzureADProvider from "next-auth/providers/azure-ad"
+import CredentialsProvider from "next-auth/providers/credentials"
+import GoogleProvider from "next-auth/providers/google"
+import LinkedInProvider from "next-auth/providers/linkedin"
 
 interface AuthenticatedUser extends AdapterUser {
 	jwt: String
@@ -24,6 +25,7 @@ export const authOptions: NextAuthOptions = {
 				})
 
 				if (response.data.user) {
+					setJwt(response.data.jwt)
 					return {
 						id: response.data.user.id,
 						name: response.data.user.username,
@@ -54,6 +56,11 @@ export const authOptions: NextAuthOptions = {
 		strategy: "jwt",
 	},
 	debug: false,
+	events: {
+		async signOut({ token }) {
+			clearJwt()
+		},
+	},
 	callbacks: {
 		async jwt({ token, user, account, profile }) {
 			if (account && account.access_token) {
@@ -73,10 +80,23 @@ export const authOptions: NextAuthOptions = {
 				token.userid = authenticatedUser.id
 			}
 
+			// console.log("jwt callback", token, user, account, profile)
+			// console.log("token", token)
+			// console.log("user", user)
+			// console.log("account", account)
+			// console.log("profile", profile)
+
 			return token
 		},
 		async session({ session, token, user }) {
-			session.jwt = token.jwt as string
+			// console.log("session callback", session, token, user)
+			// console.log("token", token)
+			// console.log("user", user)
+			// console.log("session", session)
+
+			const jwt = token.jwt as string
+			setJwt(jwt)
+			session.jwt = jwt
 			session.user.id = token.userid as number
 
 			return session

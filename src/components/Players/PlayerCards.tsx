@@ -9,7 +9,7 @@ interface PlayerCardsProps {
 
 export default function PlayerCards({ number }: PlayerCardsProps) {
 	return (
-		<Grid justify="flex-start">
+		<Grid justify="flex-start" gutter="xl" m={50}>
 			{Array(number)
 				.fill(0)
 				.map((_, index) => (
