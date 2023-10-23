@@ -1,14 +1,15 @@
-import "./globals.css"
 import "@mantine/core/styles.css"
 import "@mantine/notifications/styles.css"
+import "./globals.css"
 
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 
-import { ColorSchemeScript } from "@mantine/core"
-import { Providers } from "../components/Providers/Providers"
 import Shell from "@/components/Shell/Shell"
+import { ColorSchemeScript } from "@mantine/core"
 import { PropsWithChildren } from "react"
+import { Providers } from "../components/Providers/Providers"
+import { theme } from "./theme"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -25,7 +26,7 @@ export default function RootLayout({ children }: PropsWithChildren<{}>) {
 				<meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width, user-scalable=no" />
 			</head>
 			<body className={inter.className}>
-				<Providers>
+				<Providers theme={theme}>
 					<Shell>{children}</Shell>
 				</Providers>
 			</body>

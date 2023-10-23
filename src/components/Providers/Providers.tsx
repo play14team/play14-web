@@ -5,10 +5,13 @@ import { ModalsProvider } from "@mantine/modals"
 import { Notifications } from "@mantine/notifications"
 import { SessionProvider } from "next-auth/react"
 import { PropsWithChildren } from "react"
-import { theme } from "../../theme"
 import ReactQueryProvider from "./ReactQueryProvider"
 
-export function Providers({ children }: PropsWithChildren<{}>) {
+interface ProvidersProps extends PropsWithChildren<{}> {
+	theme: MantineThemeOverride
+}
+
+export function Providers({ children, theme }: ProvidersProps) {
 	return (
 		<MantineProvider theme={theme} defaultColorScheme="dark">
 			<Notifications />
@@ -16,7 +19,6 @@ export function Providers({ children }: PropsWithChildren<{}>) {
 				<SessionProvider>
 					<ReactQueryProvider>{children}</ReactQueryProvider>
 				</SessionProvider>
-				;
 			</ModalsProvider>
 		</MantineProvider>
 	)
