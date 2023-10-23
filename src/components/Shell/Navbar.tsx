@@ -7,7 +7,7 @@ export default function Navbar() {
 		<>
 			<NavLink label="Home" href="/" component={Link} leftSection={<IconHome2 size="1rem" stroke={1.5} />} />
 
-			<NavLink label="Events" leftSection={<IconGauge size="1rem" stroke={1.5} />}>
+			<NavLink label="Events" defaultOpened leftSection={<IconGauge size="1rem" stroke={1.5} />}>
 				<NavLink
 					label="Upcoming"
 					href="/events/upcoming"
@@ -24,7 +24,7 @@ export default function Navbar() {
 				/>
 			</NavLink>
 
-			<NavLink label="Players" leftSection={<IconUsersGroup size="1rem" stroke={1.5} />}>
+			<NavLink label="Players" defaultOpened leftSection={<IconUsersGroup size="1rem" stroke={1.5} />}>
 				<NavLink
 					label="Me"
 					href="/me"
