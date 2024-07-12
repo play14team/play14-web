@@ -1,5 +1,3 @@
-import { clearJwt, setJwt } from "@/utils/jwt"
-import axios from "axios"
 import NextAuth, { NextAuthOptions } from "next-auth"
 import { AdapterUser } from "next-auth/adapters"
 import AzureADProvider from "next-auth/providers/azure-ad"
@@ -19,18 +17,21 @@ export const authOptions: NextAuthOptions = {
 				password: { label: "Password", type: "password" },
 			},
 			async authorize(credentials, req) {
-				const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/local`, {
-					identifier: credentials?.username,
-					password: credentials?.password,
+				const response = await fetch(`${process.env.STRAPI_API_URL}/api/auth/local`, {
+					method: "POST",
+					body: JSON.stringify({
+						identifier: credentials?.username,
+						password: credentials?.password,
+					}),
 				})
+				const data = await response.json()
 
-				if (response.data.user) {
-					setJwt(response.data.jwt)
+				if (data.user) {
 					return {
-						id: response.data.user.id,
-						name: response.data.user.username,
-						email: response.data.user.email,
-						jwt: response.data.jwt,
+						id: data.user.id,
+						name: data.user.username,
+						email: data.user.email,
+						jwt: data.jwt,
 					}
 				}
 
@@ -56,15 +57,10 @@ export const authOptions: NextAuthOptions = {
 		strategy: "jwt",
 	},
 	debug: false,
-	events: {
-		async signOut({ token }) {
-			clearJwt()
-		},
-	},
 	callbacks: {
 		async jwt({ token, user, account, profile }) {
 			if (account && account.access_token) {
-				const url = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/
+				const url = `${process.env.STRAPI_API_URL}/api/auth/
 					${account?.provider.replace("azure-ad", "microsoft")}
 					/callback?access_token=${account.access_token}`
 				const response = await fetch(url)
@@ -95,7 +91,6 @@ export const authOptions: NextAuthOptions = {
 			// console.log("session", session)
 
 			const jwt = token.jwt as string
-			setJwt(jwt)
 			session.jwt = jwt
 			session.user.id = token.userid as number
 

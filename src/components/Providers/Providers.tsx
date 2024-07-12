@@ -1,14 +1,13 @@
 "use client"
 
-import { MantineProvider } from "@mantine/core"
+import { MantineProvider, MantineTheme } from "@mantine/core"
 import { ModalsProvider } from "@mantine/modals"
 import { Notifications } from "@mantine/notifications"
 import { SessionProvider } from "next-auth/react"
 import { PropsWithChildren } from "react"
-import ReactQueryProvider from "./ReactQueryProvider"
 
 interface ProvidersProps extends PropsWithChildren<{}> {
-	theme: MantineThemeOverride
+	theme: MantineTheme
 }
 
 export function Providers({ children, theme }: ProvidersProps) {
@@ -16,9 +15,7 @@ export function Providers({ children, theme }: ProvidersProps) {
 		<MantineProvider theme={theme} defaultColorScheme="dark">
 			<Notifications />
 			<ModalsProvider>
-				<SessionProvider>
-					<ReactQueryProvider>{children}</ReactQueryProvider>
-				</SessionProvider>
+				<SessionProvider>{children}</SessionProvider>
 			</ModalsProvider>
 		</MantineProvider>
 	)
