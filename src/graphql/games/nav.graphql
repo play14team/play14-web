@@ -4,12 +4,20 @@ query GameNav {
 			attributes {
 				slug
 				name
+				category
+				tags {
+					value
+				}
 				publishedAt
 				defaultImage {
 					data {
+						id
 						attributes {
-							url
 							name
+							url
+							blurhash
+							width
+							height
 						}
 					}
 				}

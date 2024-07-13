@@ -5,11 +5,25 @@ query EventNav {
 				slug
 				name
 				start
-				defaultImage {
+				status
+				location {
 					data {
 						attributes {
-							url
+							slug
 							name
+							country
+						}
+					}
+				}
+				defaultImage {
+					data {
+						id
+						attributes {
+							name
+							url
+							blurhash
+							width
+							height
 						}
 					}
 				}

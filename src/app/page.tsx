@@ -1,6 +1,6 @@
 "use client"
 
-import EventCards from "@/components/Events/EventCards"
+import EventCards from "@/components/Events/EventGrid"
 import Logo from "@/components/Shell/Logo"
 import { Stack, Title } from "@mantine/core"
 

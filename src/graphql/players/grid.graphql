@@ -1,5 +1,9 @@
-query Players($page: Int!, $pageSize: Int!) {
-	players(sort: "name:asc", pagination: { page: $page, pageSize: $pageSize }) {
+query Players($page: Int!, $pageSize: Int!, $position: String) {
+	players(
+		sort: "name:asc"
+		pagination: { page: $page, pageSize: $pageSize }
+		filters: { position: { eqi: $position } }
+	) {
 		data {
 			id
 			attributes {
@@ -23,10 +27,13 @@ fragment PlayerItem on Player {
 	position
 	avatar {
 		data {
+			id
 			attributes {
-				url
 				name
+				url
 				blurhash
+				width
+				height
 			}
 		}
 	}

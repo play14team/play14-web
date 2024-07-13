@@ -4,12 +4,24 @@ query ArticleNav {
 			attributes {
 				slug
 				title
+				category
+				tags {
+					data {
+						attributes {
+							value
+						}
+					}
+				}
 				publishedAt
 				defaultImage {
 					data {
+						id
 						attributes {
-							url
 							name
+							url
+							blurhash
+							width
+							height
 						}
 					}
 				}
