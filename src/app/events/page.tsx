@@ -5,7 +5,7 @@ import { EventEntity } from "@/models/graphql"
 import { Stack, Title } from "@mantine/core"
 
 export default async function page() {
-	const response = await getEvents(1, 18)
+	const response = await getEvents(1, 20)
 	const events = dataAsArrayOf<EventEntity>(response.events)
 	const pagination = getPagination(response.events)
 

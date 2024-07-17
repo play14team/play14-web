@@ -30,7 +30,7 @@ export const nextAuthOptions = {
 				})
 				const data = await response.json()
 
-				if (data.user) {
+				if (response.ok && data.user) {
 					return {
 						id: data.user.id,
 						name: data.user.username,

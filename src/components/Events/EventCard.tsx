@@ -1,42 +1,56 @@
 import { Enum_Event_Status, Event } from "@/models/graphql"
-import { Badge, Button, Card, Group, Spoiler, Text, Title } from "@mantine/core"
 import { IconCalendarEvent } from "@tabler/icons-react"
-import Image from "next/image"
 import { useRouter } from "next/navigation"
 import EventDate from "./EventDate"
 import EventDescription from "./EventDescription"
 
+import { ActionIcon, Badge, Button, Card, Group, Image, Spoiler, Text } from "@mantine/core"
+import { IconHeart } from "@tabler/icons-react"
+import classes from "./EventCard.module.css"
+
 export default function EventCard({ event }: { event: Event }) {
 	const router = useRouter()
 	return (
-		<Card shadow="sm" padding="lg" radius="md" withBorder>
+		<Card withBorder radius="md" p="md" className={classes.card}>
 			<Card.Section>
-				<Image
-					src={event.defaultImage.data?.attributes?.url ?? ""}
-					height={160}
-					width={320}
-					alt={event.defaultImage.data?.attributes?.caption ?? "event image"}
-				/>
+				<Image src={event.defaultImage.data?.attributes?.url ?? ""} alt={event?.name ?? "event image"} height={250} />
 			</Card.Section>
 
-			<Group justify="space-between" mt="md" mb="xs">
-				<Title order={2}>{event.name}</Title>
-				<Badge leftSection={<IconCalendarEvent size={15} />}>{event.status}</Badge>
-			</Group>
-
-			<Title order={4}>
-				<EventDate start={event.start} end={event.end} timezone={event.timezone} displayYear />
-			</Title>
-			<Spoiler maxHeight={100} showLabel="Show more" hideLabel="Hide">
-				<Text size="sm" c="dimmed">
-					<EventDescription description={event.description!} />
+			<Card.Section className={classes.section} mt="md">
+				<Group justify="space-between">
+					<Text fz="lg" fw={500}>
+						{event?.name}
+					</Text>
+					<Badge size="sm" variant="light">
+						{event.location?.data?.attributes?.country}
+					</Badge>
+				</Group>
+				<Text fz="sm" mt="xs" c="dimmed">
+					<Spoiler maxHeight={100} showLabel="More..." hideLabel="Hide">
+						<EventDescription description={event.description!} />
+					</Spoiler>
 				</Text>
-			</Spoiler>
+			</Card.Section>
 
+			<Card.Section className={classes.section}>
+				<Group justify="space-between">
+					<Text mt="md" className={classes.label} c="dimmed">
+						<EventDate start={event.start} end={event.end} timezone={event.timezone} displayYear />
+					</Text>
+					<Badge variant="light" leftSection={<IconCalendarEvent size={15} />}>
+						{event.status}
+					</Badge>
+				</Group>
+			</Card.Section>
 			{event.status == Enum_Event_Status.Open && (
-				<Button variant="light" fullWidth mt="md" radius="md" onClick={() => router.push(`/events/${event.slug}`)}>
-					Register
-				</Button>
+				<Group mt="xs">
+					<Button radius="md" style={{ flex: 1 }} onClick={() => router.push(`/events/${event.slug}`)}>
+						Register
+					</Button>
+					<ActionIcon variant="default" radius="md" size={36}>
+						<IconHeart className={classes.like} stroke={1.5} />
+					</ActionIcon>
+				</Group>
 			)}
 		</Card>
 	)

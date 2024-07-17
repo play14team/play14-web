@@ -1,6 +1,9 @@
-import { SlugParams } from "@/types/params"
+import { getPlayer } from "@/components/Players/get.action"
+import { SlugParamsProps } from "@/libs/slug-params"
 import { Title } from "@mantine/core"
 
-export default function page({ params }: SlugParams) {
-	return <Title>Player: {params.slug}</Title>
+export default async function page(props: SlugParamsProps) {
+	const player = await getPlayer(props)
+
+	return <Title>Player: {player.name}</Title>
 }

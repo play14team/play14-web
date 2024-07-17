@@ -1,26 +1,58 @@
-import { createSafeActionClient } from "next-safe-action"
+import { getSession } from "next-auth/react"
+import { createSafeActionClient, DEFAULT_SERVER_ERROR_MESSAGE } from "next-safe-action"
+import { z } from "zod"
+
+class ActionError extends Error {}
 
 export const action = createSafeActionClient()
 
-//TODO add authenticatedAction with middleware
-//https://next-safe-action.dev/docs/safe-action-client/using-a-middleware
-// export const authAction = createSafeActionClient({
-//   // Can also be a non async function.
-//   async middleware() {
-//     const session = cookies().get("session")?.value;
+// Base client.
+const actionClient = createSafeActionClient({
+	handleReturnedServerError(e) {
+		if (e instanceof ActionError) {
+			return e.message
+		}
 
-//     if (!session) {
-//       throw new Error("Session not found!");
-//     }
+		return DEFAULT_SERVER_ERROR_MESSAGE
+	},
+	defineMetadataSchema() {
+		return z.object({
+			actionName: z.string(),
+		})
+	},
+	// Define logging middleware.
+}).use(async ({ next, clientInput, metadata }) => {
+	console.log("LOGGING MIDDLEWARE")
 
-//     // In the real world, you would check if the session is valid by querying a database.
-//     // We'll keep it very simple here.
-//     const userId = await getUserIdFromSessionId(session);
+	// Here we await the action execution.
+	const result = await next({ ctx: null })
 
-//     if (!userId) {
-//       throw new Error("Session is not valid!");
-//     }
+	console.log("Result ->", result)
+	console.log("Client input ->", clientInput)
+	console.log("Metadata ->", metadata)
 
-//     return { userId };
-//   },
-// });
+	// And then return the result of the awaited action.
+	return result
+})
+
+// Auth client defined by extending the base one.
+// Note that the same initialization options and middleware functions of the base client
+// will also be used for this one.
+const authActionClient = actionClient
+	// Define authorization middleware.
+	.use(async ({ next }) => {
+		const session = await getSession()
+
+		if (!session) {
+			throw new Error("Session not found!")
+		}
+
+		if (!session.user || !session.user.id) {
+			throw new Error("Session is not valid!")
+		}
+
+		const userId = session.user.id
+
+		// Return the next middleware with `userId` value in the context
+		return next({ ctx: { userId } })
+	})
